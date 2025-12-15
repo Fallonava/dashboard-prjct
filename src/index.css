@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Enforced Dark Mode - Apple Dashboard Style */
+  --bg-primary: #000000;
+  --bg-secondary: #1c1c1e;
+  --bg-card: rgba(30, 30, 32, 0.70);
+  --bg-card-hover: rgba(44, 44, 46, 0.85);
+
+  --text-primary: #f5f5f7;
+  --text-secondary: #86868b;
+  --text-tertiary: #a1a1a6;
+
+  --accent-color: #0A84FF;
+  /* iOS Dark Mode Blue */
+  --accent-hover: #409CFF;
+
+  --border-color: rgba(255, 255, 255, 0.12);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.4);
+
+  --glass-blur: blur(20px) saturate(180%);
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 8px;
+
+  --ease-spring: cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Modern Apple Buttons */
+.btn-apple {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 8px 16px;
+  border-radius: 99px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+}
+
+.btn-apple:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.btn-apple.primary {
+  background: var(--accent-color);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 4px 12px rgba(10, 132, 255, 0.3);
+}
+
+.btn-apple.primary:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 6px 16px rgba(10, 132, 255, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+}
+
+/* Utilities */
+.glass {
+  background: var(--bg-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-color);
+}
+
+.card {
+  border-radius: var(--radius-lg);
+  transition: transform 0.3s var(--ease-spring), box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  background: var(--bg-card-hover);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-secondary);
+  border-radius: 10px;
+  background-clip: content-box;
+  border: 2px solid transparent;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-tertiary);
+}
+
+/* Skeleton Loading */
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+
+  100% {
+    opacity: 0.6;
+  }
+}
+
+.skeleton {
+  background: var(--text-tertiary);
+  opacity: 0.1;
+  border-radius: var(--radius-sm);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Bento Grid Layouts */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  grid-auto-flow: dense;
+  /* Helps fill gaps */
+}
+
+@media (min-width: 1024px) {
+  .bento-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .col-span-2 {
+    grid-column: span 2;
+  }
+
+  .row-span-2 {
+    grid-row: span 2;
+  }
+}
+
+/* Mesh Gradients */
+.mesh-gradient-1 {
+  background: radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+    radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
+}
+
+.mesh-gradient-2 {
+  background: radial-gradient(at 0% 100%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+    radial-gradient(at 50% 100%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
+    radial-gradient(at 100% 100%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
+}
+
+/* Progress Bar */
+.progress-bar {
+  background: rgba(128, 128, 128, 0.2);
+  border-radius: 99px;
+  height: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--accent-color);
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Status Badges */
+.badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-completed {
+  background: rgba(50, 205, 50, 0.1);
+  color: #32cd32;
+  border: 1px solid rgba(50, 205, 50, 0.2);
+}
+
+.badge-progress {
+  background: rgba(255, 170, 0, 0.1);
+  color: #ffaa00;
+  border: 1px solid rgba(255, 170, 0, 0.2);
+}
+
+/* Premium Aurora Background */
+.aurora-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+  animation: float 10s ease-in-out infinite;
+}
+
+.orb-1 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(10, 132, 255, 0.6) 0%, transparent 70%);
+  top: -100px;
+  left: -100px;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(188, 19, 254, 0.5) 0%, transparent 70%);
+  bottom: 10%;
+  right: -50px;
+  animation-delay: -2s;
+}
+
+.orb-3 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(48, 209, 88, 0.3) 0%, transparent 70%);
+  top: 40%;
+  left: 30%;
+  animation-delay: -5s;
+}
+
+.noise-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
