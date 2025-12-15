@@ -2,18 +2,23 @@ import { useState, useEffect } from 'react';
 import './index.css';
 import githubService from './services/github';
 import Sidebar from './components/Sidebar';
-import Profile from './components/Profile';
-import BentoGrid from './components/BentoGrid';
-// import Skeleton from './components/Skeleton'; // Unused in this version
 import Background from './components/Background';
 import { useProjects } from './hooks/useProjects';
 import ProjectModal from './components/ProjectModal';
-import { ActivityChart, LanguageChart } from './components/Charts';
+
+// Views
+import DashboardView from './components/views/DashboardView';
+import ProjectsView from './components/views/ProjectsView';
+import FavoritesView from './components/views/FavoritesView';
+import SettingsView from './components/views/SettingsView';
 
 function App() {
   const [username] = useState('alfai');
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // Navigation State
+  const [activeView, setActiveView] = useState('dashboard');
 
   // Project Management Hooks
   const { projects, addProject, updateProject, deleteProject } = useProjects();
@@ -59,15 +64,43 @@ function App() {
     setIsModalOpen(true);
   };
 
+  // View Router
+  const renderView = () => {
+    switch (activeView) {
+      case 'dashboard':
+        return <DashboardView
+          profile={profile}
+          projects={projects}
+          onAdd={handleAddNew}
+          onEdit={handleEdit}
+          onDelete={deleteProject}
+        />;
+      case 'projects':
+        return <ProjectsView
+          projects={projects}
+          onAdd={handleAddNew}
+          onEdit={handleEdit}
+          onDelete={deleteProject}
+        />;
+      case 'favorites':
+        return <FavoritesView
+          projects={projects}
+          onEdit={handleEdit}
+          onDelete={deleteProject}
+        />;
+      case 'settings':
+        return <SettingsView profile={profile} />;
+      default:
+        return <DashboardView profile={profile} projects={projects} />;
+    }
+  };
+
   return (
     <div className="app-layout">
-      {/* Background stays outside grid, fixed to viewport */}
       <Background />
 
-      {/* Sidebar is now the first column of the grid */}
-      <Sidebar />
+      <Sidebar activeView={activeView} onNavigate={setActiveView} />
 
-      {/* Main Content is the second column */}
       <main className="main-content" style={{ padding: '2.5rem', minHeight: '100vh', position: 'relative', zIndex: 1, overflowX: 'hidden' }}>
 
         {loading ? (
@@ -75,30 +108,10 @@ function App() {
             <span style={{ fontSize: '18px', color: 'var(--text-secondary)' }}>Loading Dashboard...</span>
           </div>
         ) : (
-          <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', marginBottom: '2.5rem' }}>
-              <div style={{ gridColumn: 'span 2' }}>
-                <Profile profile={profile} />
-              </div>
-              <div style={{ height: '320px' }}>
-                <ActivityChart projects={projects} />
-              </div>
-              <div style={{ height: '320px' }}>
-                <LanguageChart projects={projects} />
-              </div>
-            </div>
-
-            <BentoGrid
-              projects={projects}
-              onAdd={handleAddNew}
-              onEdit={handleEdit}
-              onDelete={deleteProject}
-            />
-          </div>
+          renderView()
         )}
       </main>
 
-      {/* Modal overlays everything */}
       <ProjectModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
