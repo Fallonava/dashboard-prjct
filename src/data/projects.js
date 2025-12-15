@@ -2,7 +2,7 @@ export const projects = [
     {
         id: 'local-1',
         type: 'local',
-        title: 'Alfai Dashboard',
+        title: 'Fallonava Dashboard',
         description: 'A premium, client-side dashboard for tracking project progress. Built with React + Vite.',
         progress: 90,
         status: 'In Progress', // In Progress, Completed, On Hold

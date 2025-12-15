@@ -13,7 +13,7 @@ import FavoritesView from './components/views/FavoritesView';
 import SettingsView from './components/views/SettingsView';
 
 function App() {
-  const [username] = useState('alfai');
+  const [username] = useState('Fallonava');
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
