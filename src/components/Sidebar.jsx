@@ -1,8 +1,7 @@
-
-import { Home, Folder, Star, Settings, Command, LayoutGrid, Menu, X } from 'lucide-react';
+import { Home, Folder, Star, Settings, Command, Menu, X, Sun, Moon } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
-const Sidebar = ({ activeView, onNavigate }) => {
+const Sidebar = ({ activeView, onNavigate, theme, toggleTheme }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
@@ -13,10 +12,10 @@ const Sidebar = ({ activeView, onNavigate }) => {
     }, []);
 
     const menuItems = [
-        { id: 'dashboard', icon: <Home size={18} />, label: 'Dashboard', color: '#0A84FF' }, // Blue
-        { id: 'projects', icon: <Folder size={18} />, label: 'Projects', color: '#30D158' }, // Green
-        { id: 'favorites', icon: <Star size={18} />, label: 'Favorites', color: '#FFD60A' }, // Yellow
-        { id: 'settings', icon: <Settings size={18} />, label: 'Settings', color: '#8E8E93' }, // Gray
+        { id: 'dashboard', icon: <Home size={18} />, label: 'Dashboard', color: '#0A84FF' },
+        { id: 'projects', icon: <Folder size={18} />, label: 'Projects', color: '#30D158' },
+        { id: 'favorites', icon: <Star size={18} />, label: 'Favorites', color: '#FFD60A' },
+        { id: 'settings', icon: <Settings size={18} />, label: 'Settings', color: '#8E8E93' },
     ];
 
     const handleNav = (viewId) => {
@@ -26,11 +25,13 @@ const Sidebar = ({ activeView, onNavigate }) => {
 
     const NavContent = () => (
         <>
-            <div style={{ padding: '0 12px', marginBottom: '40px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'linear-gradient(135deg, #0A84FF, #5E5CE6)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(10, 132, 255, 0.3)' }}>
-                    <Command size={18} color="white" />
+            <div style={{ padding: '0 12px', marginBottom: '40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'linear-gradient(135deg, #0A84FF, #5E5CE6)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(10, 132, 255, 0.3)' }}>
+                        <Command size={18} color="white" />
+                    </div>
+                    <span style={{ fontSize: '18px', fontWeight: '700', letterSpacing: '-0.5px' }}>Dashboard</span>
                 </div>
-                <span style={{ fontSize: '18px', fontWeight: '700', letterSpacing: '-0.5px' }}>Dashboard</span>
             </div>
 
             <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '6px' }}>
@@ -47,8 +48,8 @@ const Sidebar = ({ activeView, onNavigate }) => {
                                 display: 'flex', alignItems: 'center', gap: '12px',
                                 padding: '10px 12px',
                                 borderRadius: '10px',
-                                color: isActive ? 'white' : 'var(--text-secondary)',
-                                background: isActive ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+                                color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)', // Adaptive color
+                                background: isActive ? 'rgba(120, 120, 120, 0.1)' : 'transparent', // Adaptive bg
                                 border: 'none',
                                 width: '100%',
                                 textAlign: 'left',
@@ -57,20 +58,7 @@ const Sidebar = ({ activeView, onNavigate }) => {
                                 fontWeight: isActive ? '600' : '500',
                                 transition: 'all 0.2s ease',
                             }}
-                            onMouseEnter={(e) => {
-                                if (!isActive) {
-                                    e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
-                                    e.currentTarget.style.color = 'var(--text-primary)';
-                                }
-                            }}
-                            onMouseLeave={(e) => {
-                                if (!isActive) {
-                                    e.currentTarget.style.background = 'transparent';
-                                    e.currentTarget.style.color = 'var(--text-secondary)';
-                                }
-                            }}
                         >
-                            {/* Icon Container with dynamic color */}
                             <div style={{
                                 color: isActive ? item.color : 'inherit',
                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -84,7 +72,24 @@ const Sidebar = ({ activeView, onNavigate }) => {
                 })}
             </nav>
 
-            <div style={{ padding: '20px 12px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+            <div style={{ marginTop: 'auto', padding: '20px 12px', borderTop: '1px solid var(--border-color)' }}>
+
+                {/* Theme Toggle */}
+                <button
+                    onClick={toggleTheme}
+                    className="glass"
+                    style={{
+                        width: '100%', padding: '10px', borderRadius: '10px', marginBottom: '16px',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                        color: 'var(--text-primary)', cursor: 'pointer'
+                    }}
+                >
+                    {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+                    <span style={{ fontSize: '13px', fontWeight: '500' }}>
+                        {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                    </span>
+                </button>
+
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#30D158', boxShadow: '0 0 8px rgba(48,209,88,0.5)' }}></div>
                     <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>System Operational</span>
@@ -103,7 +108,7 @@ const Sidebar = ({ activeView, onNavigate }) => {
                     style={{
                         position: 'fixed', top: '16px', left: '16px',
                         zIndex: 100, padding: '8px 12px', borderRadius: '12px',
-                        color: 'white', border: '1px solid var(--border-color)',
+                        color: 'var(--text-primary)', border: '1px solid var(--border-color)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center'
                     }}
                 >
@@ -133,13 +138,15 @@ const Sidebar = ({ activeView, onNavigate }) => {
     return (
         <aside style={{
             position: 'sticky', top: 0, height: '100vh',
-            borderRight: '1px solid rgba(255,255,255,0.08)',
-            background: 'rgba(30, 30, 30, 0.3)',
+            borderRight: '1px solid var(--border-color)',
+            background: 'rgba(255, 255, 255, 0.5)',
             backdropFilter: 'blur(40px)',
             display: 'flex', flexDirection: 'column',
             padding: '32px 20px',
             overflowY: 'auto'
-        }}>
+        }}
+            className="dark:bg-opacity-30"
+        >
             <NavContent />
         </aside>
     );

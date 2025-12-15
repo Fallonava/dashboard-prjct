@@ -20,16 +20,28 @@ function App() {
   // Navigation State
   const [activeView, setActiveView] = useState('dashboard');
 
+  // Theme State
+  const [theme, setTheme] = useState('dark');
+
+  // Add/Remove .dark class on theme change
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
+
   // Project Management Hooks
   const { projects, addProject, updateProject, deleteProject } = useProjects();
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
-
-  useEffect(() => {
-    document.body.classList.add('dark-mode');
-  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -96,10 +108,15 @@ function App() {
   };
 
   return (
-    <div className="app-layout">
+    <div className={`app-layout ${theme}`}>
       <Background />
 
-      <Sidebar activeView={activeView} onNavigate={setActiveView} />
+      <Sidebar
+        activeView={activeView}
+        onNavigate={setActiveView}
+        theme={theme}
+        toggleTheme={toggleTheme}
+      />
 
       <main className="main-content" style={{ padding: '2.5rem', minHeight: '100vh', position: 'relative', zIndex: 1, overflowX: 'hidden' }}>
 
