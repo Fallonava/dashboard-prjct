@@ -48,8 +48,8 @@ const Sidebar = ({ activeView, onNavigate, theme, toggleTheme }) => {
                                 display: 'flex', alignItems: 'center', gap: '12px',
                                 padding: '10px 12px',
                                 borderRadius: '10px',
-                                color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)', // Adaptive color
-                                background: isActive ? 'rgba(120, 120, 120, 0.1)' : 'transparent', // Adaptive bg
+                                color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
+                                background: isActive ? 'rgba(120, 120, 120, 0.1)' : 'transparent',
                                 border: 'none',
                                 width: '100%',
                                 textAlign: 'left',
@@ -119,16 +119,13 @@ const Sidebar = ({ activeView, onNavigate, theme, toggleTheme }) => {
                     <div style={{ position: 'fixed', inset: 0, zIndex: 99, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(5px)' }} onClick={() => setIsOpen(false)}></div>
                 )}
 
-                <aside style={{
+                <aside className="floating-sidebar" style={{
                     position: 'fixed', top: 0, left: 0, bottom: 0,
-                    width: '260px', zIndex: 101,
-                    background: 'var(--bg-secondary)',
-                    borderRight: '1px solid var(--border-color)',
-                    transform: isOpen ? 'translateX(0)' : 'translateX(-100%)',
-                    transition: 'transform 0.3s cubic-bezier(0.2, 0, 0, 1)',
-                    padding: '24px', display: 'flex', flexDirection: 'column'
+                    zIndex: 101, transform: isOpen ? 'translateX(0)' : 'translateX(-100%)',
                 }}>
-                    <NavContent />
+                    <div style={{ flex: 1, padding: '24px', overflowY: 'auto' }}>
+                        <NavContent />
+                    </div>
                 </aside>
             </>
         );
@@ -136,18 +133,10 @@ const Sidebar = ({ activeView, onNavigate, theme, toggleTheme }) => {
 
     // Desktop
     return (
-        <aside style={{
-            position: 'sticky', top: 0, height: '100vh',
-            borderRight: '1px solid var(--border-color)',
-            background: 'rgba(255, 255, 255, 0.5)',
-            backdropFilter: 'blur(40px)',
-            display: 'flex', flexDirection: 'column',
-            padding: '32px 20px',
-            overflowY: 'auto'
-        }}
-            className="dark:bg-opacity-30"
-        >
-            <NavContent />
+        <aside className="floating-sidebar">
+            <div style={{ flex: 1, padding: '32px 20px', overflowY: 'auto' }}>
+                <NavContent />
+            </div>
         </aside>
     );
 };

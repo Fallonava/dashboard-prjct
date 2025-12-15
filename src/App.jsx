@@ -118,15 +118,16 @@ function App() {
         toggleTheme={toggleTheme}
       />
 
-      <main className="main-content" style={{ padding: '2.5rem', minHeight: '100vh', position: 'relative', zIndex: 1, overflowX: 'hidden' }}>
-
-        {loading ? (
-          <div className="glass card" style={{ padding: '2.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '400px' }}>
-            <span style={{ fontSize: '18px', color: 'var(--text-secondary)' }}>Loading Dashboard...</span>
-          </div>
-        ) : (
-          renderView()
-        )}
+      <main className="main-content">
+        <div style={{ padding: '2.5rem', minHeight: '100%' }}>
+          {loading ? (
+            <div className="glass card" style={{ padding: '2.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '400px' }}>
+              <span style={{ fontSize: '18px', color: 'var(--text-secondary)' }}>Loading Dashboard...</span>
+            </div>
+          ) : (
+            renderView()
+          )}
+        </div>
       </main>
 
       <ProjectModal
