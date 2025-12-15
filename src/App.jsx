@@ -4,7 +4,7 @@ import githubService from './services/github';
 import Sidebar from './components/Sidebar';
 import Profile from './components/Profile';
 import BentoGrid from './components/BentoGrid';
-import Skeleton from './components/Skeleton';
+// import Skeleton from './components/Skeleton'; // Unused in this version
 import Background from './components/Background';
 import { useProjects } from './hooks/useProjects';
 import ProjectModal from './components/ProjectModal';
@@ -60,27 +60,30 @@ function App() {
   };
 
   return (
-    <div className="app-container">
+    <div className="app-layout">
+      {/* Background stays outside grid, fixed to viewport */}
       <Background />
+
+      {/* Sidebar is now the first column of the grid */}
       <Sidebar />
 
-      <main className="main-content" style={{ padding: '2rem', minHeight: '100vh', maxWidth: '1600px', position: 'relative', zIndex: 1 }}>
-
-        {/* Mobile Header Spacer */}
-        <div style={{ height: '60px', display: window.innerWidth < 768 ? 'block' : 'none' }}></div>
+      {/* Main Content is the second column */}
+      <main className="main-content" style={{ padding: '2.5rem', minHeight: '100vh', position: 'relative', zIndex: 1, overflowX: 'hidden' }}>
 
         {loading ? (
-          <div className="glass card" style={{ padding: '2.5rem' }}>Loading...</div>
+          <div className="glass card" style={{ padding: '2.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '400px' }}>
+            <span style={{ fontSize: '18px', color: 'var(--text-secondary)' }}>Loading Dashboard...</span>
+          </div>
         ) : (
-          <>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
+          <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', marginBottom: '2.5rem' }}>
               <div style={{ gridColumn: 'span 2' }}>
                 <Profile profile={profile} />
               </div>
-              <div style={{ height: '300px' }}>
+              <div style={{ height: '320px' }}>
                 <ActivityChart projects={projects} />
               </div>
-              <div style={{ height: '300px' }}>
+              <div style={{ height: '320px' }}>
                 <LanguageChart projects={projects} />
               </div>
             </div>
@@ -91,10 +94,11 @@ function App() {
               onEdit={handleEdit}
               onDelete={deleteProject}
             />
-          </>
+          </div>
         )}
       </main>
 
+      {/* Modal overlays everything */}
       <ProjectModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
